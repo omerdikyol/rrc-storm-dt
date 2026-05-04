@@ -12,9 +12,9 @@ Adversarial 5G RRC signaling storms use highly correlated, bursty traffic to exh
     * $c$: Total available RACH preambles (servers).
     * $K$: Maximum RRC connection buffer capacity.
 * **Objective Function:** $\max \left( P_{success} - \omega_1 \cdot E - \omega_2 \cdot P_{drop} \right)$
-    * $P_{success}$: Legitimate connection success rate.
+    * $P_{success}$: Aggregate request success rate.
     * $E$: State mirroring error between physical queue and DT queue.
     * $P_{drop}$: Packet drop rate.
 
 ## 4. Expected Output
-A simulation script outputting comparative CSV data and time-series plots demonstrating the superiority of the Calibrated Predictive DT over a standard reactive threshold mechanism.
+A simulation script outputting comparative CSV data and time-series plots showing the calibration benefit, queueing-delay impact, and throughput behavior of the Calibrated Predictive DT against a standard reactive threshold mechanism.

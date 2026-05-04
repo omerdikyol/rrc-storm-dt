@@ -9,7 +9,7 @@
 ## 2. Core Class Architecture
 * **`TrafficGenerator`:** Implements the 2-state MMPP. Uses a continuous-time Markov chain to switch between 'Normal' ($\lambda_{low}$) and 'Burst' ($\lambda_{high}$) states. Generates connection request events.
 * **`gNB_Queue`:** Represents the physical network. Implements the $M/c/K$ queue logic. Tracks $Q_{real}$, total requests, dropped requests, and successful connections.
-* **`DigitalTwinController`:** Runs in parallel. Contains the unified pipeline (Prediction -> Calibration -> Control). Reads $Q_{real}$, calculates $p_{acb}$, and updates the `gNB_Queue` barring rate.
+* **`DigitalTwinController`:** Runs in parallel. Contains the unified pipeline (Prediction -> Control -> Virtual Queue Update -> Calibration). Reads $Q_{real}$, calculates $p_{acb}$ from the physical queue headroom and EMA-predicted arrival load, updates the `gNB_Queue` barring rate, then adjusts $\alpha$ from the mirroring error.
 
 ## 3. Simulation Parameters (Initial Tuning)
 * Simulation time: 1000 seconds.

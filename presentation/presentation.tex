@@ -231,7 +231,7 @@
         \item Combined rate: $\lambda_{\mathrm{high}} = 500\ \mathrm{req/s}$
               vs.\ normal $\lambda_{\mathrm{low}} = 10\ \mathrm{req/s}$
         \item RACH buffer saturates within seconds
-        \item Legitimate UE requests are dropped: \alert{QoS failure}
+        \item Access requests are dropped: \alert{QoS failure}
       \end{itemize}
 
       \vspace{8pt}
@@ -428,7 +428,7 @@
     \node[stage, right=1.5cm of gnb] (obs)
           {1. Observe \&\\Predict\\{\scriptsize EMA $\to\hat\lambda$}};
     \node[stage, right=0.7cm of obs] (ctrl)
-          {2. Control\\Decision\\{\scriptsize $\pacb$ from $\qvirt$}};
+          {2. Control\\Decision\\{\scriptsize $\pacb$ from $\qreal$}};
     \node[stage, right=0.7cm of ctrl] (cal)
           {3. Calibrate\\{\scriptsize $\alpha \leftarrow f(E)$}};
 
@@ -486,7 +486,7 @@
       \vspace{6pt}
       {\small
       \begin{itemize}\setlength\itemsep{3pt}
-        \item Initial weight $\alpha_0 = 0.2$ (validated for bursty traffic \cite{b8})
+        \item Initial weight $\alpha_0 = 0.2$ (empirical default; stable before calibration)
         \item $\alpha$ is \textbf{dynamic}, updated by the calibration loop
       \end{itemize}}
     \end{column}
@@ -748,7 +748,7 @@
     \begin{column}{0.48\textwidth}
       \begin{block}{\small CDF Left-Shift}
         \footnotesize
-        Calibrated DT curve is shifted left: lower delay at every percentile.
+        Calibrated DT curve is shifted left: lower delay at the reported percentiles.
       \end{block}
     \end{column}
 
@@ -756,7 +756,7 @@
       \begin{exampleblock}{\small Why tail is suppressed}
         \footnotesize
         Reactive allows queuing near saturation: large P90/P99 spikes.\\[3pt]
-        Calibrated DT holds $\qreal$ in stable region: more requests served at lower delay.
+        Calibrated DT holds $\qreal$ in stable region: equivalent success rate with lower served-request delay.
       \end{exampleblock}
     \end{column}
   \end{columns}
@@ -774,7 +774,7 @@
     \begin{column}{0.48\textwidth}
       \begin{block}{\small Tested: $\varepsilon \in \{5,\;10,\;20,\;40,\;80\}$}
         \footnotesize
-        $\varepsilon = 10$ achieves best normalised objective score across all seeds.
+        Single-seed sweep (seed=42): $\varepsilon=40$ achieves highest composite objective; $\varepsilon=10$ adopted as conservative default just above normal-traffic noise floor.
       \end{block}
     \end{column}
 
@@ -783,7 +783,7 @@
         \footnotesize
         \textbf{Too small} ($\varepsilon=5$): over-calibrates in normal traffic.\\[3pt]
         \textbf{Too large} ($\varepsilon=80$): calibration rarely triggers.\\[3pt]
-        $\varepsilon=10$ is the empirically optimal balance.
+        Multi-seed validation needed; $\varepsilon=10$ used as conservative default.
       \end{exampleblock}
     \end{column}
   \end{columns}
@@ -802,8 +802,8 @@
         \small
         \begin{itemize}\setlength\itemsep{3pt}
           \item Fixed arithmetic, 4 state variables
-          \item Completes in nanoseconds on gNB hardware
-          \item gNB RACH deadline: microseconds; ample margin
+          \item Fixed-cost arithmetic per control step
+          \item Suitable for tight gNB control budgets after hardware benchmarking
         \end{itemize}
       \end{block}
 

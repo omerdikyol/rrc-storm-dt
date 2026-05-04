@@ -282,8 +282,9 @@ DT, gelecekteki varış hızını tahmin etmek amacıyla Exponential Moving Aver
 \noindent burada $\lambda_{\mathrm{current}} = n_{\mathrm{window}}/\Delta$,
 $n_{\mathrm{window}}$ değeri $\Delta$ aralığındaki gözlemlenen varış sayısını;
 $\alpha \in [0,1]$ ise dinamik düzeltme ağırlığını ifade etmektedir. $\alpha$'nın
-başlangıç değeri $\alpha_0 = 0.2$ olarak alınmış olup bu değer patlamalı trafik
-için literatürde önerilen $[0.15,\ 0.25]$ aralığı içinde yer almaktadır~\cite{b8}.
+başlangıç değeri $\alpha_0 = 0.2$ olarak deneysel biçimde seçilmiş ve
+kalibrasyon döngüsü devreye girmeden önce normal trafik altında kararlı EMA
+tahminleri ürettiği doğrulanmıştır.
 
 \subsection{Stokastik Kontrol Politikası: $p_{acb}$ Hesabı}
 
