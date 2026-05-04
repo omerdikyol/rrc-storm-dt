@@ -152,7 +152,7 @@ The DT uses the Exponential Moving Average (EMA) filter to predict future arriva
 \label{eq:ema}
 \end{equation}
 
-\noindent where $\lambda_{\mathrm{current}} = n_{\mathrm{window}}/\Delta$ represents the observed arrival count in the $\Delta$ window, and $\alpha \in [0,1]$ represents the dynamic correction weight. The initial value of $\alpha$ is set to $\alpha_0 = 0.2$, which falls within the $[0.15,\ 0.25]$ range recommended in the literature for bursty traffic~\cite{b8}.
+\noindent where $\lambda_{\mathrm{current}} = n_{\mathrm{window}}/\Delta$ represents the observed arrival count in the $\Delta$ window, and $\alpha \in [0,1]$ represents the dynamic correction weight. The initial value of $\alpha$ is set to $\alpha_0 = 0.2$, chosen empirically and confirmed to produce stable EMA estimates under normal traffic conditions prior to calibration loop activation.
 
 \subsection{Stochastic Control Policy: $p_{acb}$ Calculation}
 
@@ -362,7 +362,7 @@ The controller therefore requires $O(1)$ time and $O(1)$ space per control step.
 
 This contrasts with learning-based controllers. In Machine Learning (ML) or Deep Neural Network (DNN) based approaches, inference cost scales with the weight matrix size to $O(W)$, where $W$ is the number of trained weights. LSTM and Transformer-based traffic prediction models commonly reach $W \sim 10^5$--$10^7$ parameters; at that scale, inference latency reaches the millisecond range and can be non-deterministic~\cite{b9}. gNB RACH controllers require responses in the microsecond range, making DNN-based controllers impractical for direct hardware deployment.
 
-The proposed $O(1)$ Calibrated DT addresses this constraint by providing accurate online adaptation within a fixed hardware budget. Each $\Delta = 1\ \mathrm{s}$ step completes in nanoseconds on modern gNB processors, making it compatible with commercial gNB software stacks.
+The proposed $O(1)$ Calibrated DT addresses this constraint by providing online adaptation with minimal algorithmic overhead. Each $\Delta = 1\ \mathrm{s}$ step consists only of fixed cost arithmetic and comparisons, making the controller suitable for commercial gNB software stacks subject to target hardware benchmarking.
 
 \subsection{O-RAN Integration and Real-time Deployment}
 

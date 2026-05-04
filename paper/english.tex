@@ -16,8 +16,8 @@
 \usepackage{booktabs}          % professional table rules
 \usepackage{caption}           % caption* for unnumbered captions
 
-% ── Graphics path (relative to this file) ────────────────────────────────────
-\graphicspath{{figures/}}
+% ── Graphics paths (relative to this file) ───────────────────────────────────
+\graphicspath{{../output/figures/}{figures/}}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -75,7 +75,7 @@ This work proposes a \emph{Calibrated Digital Twin} architecture with a continuo
 \item \textbf{Realistic traffic model:} A two state MMPP/M/c/K queue is designed to model 5G RRC signaling storm conditions, and the burst dynamics of adversarial traffic are captured through a Continuous Time Markov Chain (CTMC).
 \item \textbf{Continuous calibration loop:} A calibration mechanism is introduced that updates the Exponential Moving Average (EMA) weight with an asymmetric step rule when the state mirroring error exceeds a threshold. This mechanism reduces state mirroring error by 42\%.
 \item \textbf{Proactive QoS improvement:} The effects of the calibration loop on $P_{success}$ and the queueing delay distribution are evaluated through Monte Carlo experiments with $N=10$ independent seeds.
-\item \textbf{Epsilon sensitivity analysis:} The impact of the calibration trigger threshold $\varepsilon$ on system performance is examined systematically, showing that the proposed value $\varepsilon = 10$ is near optimal.
+\item \textbf{Epsilon sensitivity analysis:} The impact of the calibration trigger threshold $\varepsilon$ on system performance is examined through an exploratory single seed sweep, showing that $\varepsilon = 40$ achieves the highest composite objective in that run while $\varepsilon = 10$ remains a conservative default just above the normal traffic noise floor.
 \end{enumerate}
 
 % =============================================================================
@@ -87,7 +87,7 @@ This work proposes a \emph{Calibrated Digital Twin} architecture with a continuo
 
 The most common reactive mechanism for preventing RACH overload is the Access Class Barring (ACB) method defined in 3GPP TS 38.331~\cite{b4}. The original ACB framework introduced in LTE Release 11 relied on a binary barring mechanism that grouped devices by access class (AC 0 to 9). The gNB broadcast a barring factor $p$ and a barring duration $T_{acb}$ through System Information Block 2 (SIB2), causing devices in selected access classes to defer their RACH transmissions probabilistically.
 
-With 5G NR Release 15, 3GPP adopted the more flexible \emph{Unified Access Control} (UAC) framework~\cite{b4}. UAC provides a two dimensional policy table that cross maps traffic categories and access identities. The barring factors are broadcast to all devices via the \texttt{uac-BarringInfo} field in System Information Block 1 (SIB1). The $\pacb$ value computed by the proposed DT controller at each $\Delta$ step maps directly to this UAC barring factor. The DT is therefore designed to inject $\pacb$ into the SIB1 broadcast of the gNB and provides a standards compliant real time control interface. This allows the proposed proactive controller to be integrated into existing 3GPP signaling without requiring protocol changes.
+With 5G NR Release 15, 3GPP adopted the more flexible \emph{Unified Access Control} (UAC) framework~\cite{b4}. UAC provides a two dimensional policy table that cross maps traffic categories and access identities. The barring factors are broadcast to all devices via the uac-BarringInfo field in System Information Block 1 (SIB1). The $\pacb$ value computed by the proposed DT controller at each $\Delta$ step maps directly to this UAC barring factor. The DT is therefore designed to inject $\pacb$ into the SIB1 broadcast of the gNB and provides a standards compliant real time control interface. This allows the proposed proactive controller to be integrated into existing 3GPP signaling without requiring protocol changes.
 
 This general mechanism has been studied extensively in both LTE and 5G NR, and adaptive ACB variants that adjust barring parameters based on queue occupancy have been proposed~\cite{b5}.
 
@@ -95,7 +95,7 @@ However, all reactive ACB and UAC variants remain subject to a basic causality c
 
 \subsection{Proactive and Predictive Approaches}
 
-In response to the limitations of reactive methods, proactive control approaches have been developed to predict future traffic conditions and apply throttling policies in advance. Approaches in this area include Markov decision processes~\cite{b7}, reinforcement learning based resource allocation~\cite{b8}, and time series based load prediction~\cite{b9}.
+In response to the limitations of reactive methods, proactive control approaches have been developed to predict future traffic conditions and apply throttling policies in advance. Approaches in this area include Markov decision processes~\cite{b7}, deep learning based resource allocation~\cite{b8}, and time series based load prediction~\cite{b9}.
 
 The Digital Twin paradigm offers a broader framework in which the virtual representation of the physical system is updated continuously through real time feedback~\cite{b10}. DT applications in 5G network management have been explored for energy efficiency optimization~\cite{b11}, slice management~\cite{b12}, and anomaly detection~\cite{b13}. However, most existing DT based network controllers do not update their predictive behavior during runtime. In botnet driven RRC signaling storm scenarios, this leads to model drift and growing state mirroring error. The proposed calibrated DT architecture addresses this specific gap.
 
@@ -135,7 +135,7 @@ The physical gNB RACH contains $c = 54$ preamble channels. The total system capa
 
 \subsection{Proactive Digital Twin Architecture}
 
-The proposed method consists of a proactive Digital Twin controller running in parallel with the physical gNB. The DT executes a unified pipeline with control interval $\Delta = 1\ \mathrm{s}$ and three sequential stages: observation and prediction, continuous calibration, and control decision.
+The proposed method consists of a proactive Digital Twin controller running in parallel with the physical gNB. The DT executes a unified pipeline with control interval $\Delta = 1\ \mathrm{s}$ and three sequential stages: observation and prediction, control decision, and continuous calibration.
 
 \subsection{EMA Based Arrival Rate Prediction}
 
@@ -146,7 +146,7 @@ The DT predicts the future arrival rate using an Exponential Moving Average (EMA
 \label{eq:ema}
 \end{equation}
 
-where $\lambda_{\mathrm{current}} = n_{\mathrm{window}}/\Delta$, $n_{\mathrm{window}}$ is the number of arrivals observed during the interval $\Delta$, and $\alpha \in [0,1]$ is the dynamic correction weight. The initial value is set to $\alpha_0 = 0.2$, which lies in the range $[0.15, 0.25]$ commonly suggested for bursty traffic~\cite{b8}.
+where $\lambda_{\mathrm{current}} = n_{\mathrm{window}}/\Delta$, $n_{\mathrm{window}}$ is the number of arrivals observed during the interval $\Delta$, and $\alpha \in [0,1]$ is the dynamic correction weight. The initial value is set to $\alpha_0 = 0.2$, chosen empirically and confirmed to produce stable EMA estimates under normal traffic conditions prior to calibration loop activation.
 
 \subsection{Stochastic Control Policy: $\pacb$ Computation}
 
@@ -165,9 +165,11 @@ where $\varepsilon_g = 10^{-9}$ protects against division by zero. The value $\p
 To internally emulate the controlled physical system, the DT maintains a virtual queue $\qvirt$:
 
 \begin{equation}
-\qvirt(t{+}\Delta) = \mathrm{clip}\!\left(
-    \qvirt(t) + \ema_t \cdot (1 - \pacb) \cdot \Delta - c \cdot \Delta,\;
-    0,\; K\right)
+\begin{aligned}
+\qvirt(t{+}\Delta) = \mathrm{clip}\!\big(&
+    \qvirt(t) + \ema_t (1 - \pacb)\Delta - c\Delta,\\
+    &0,\; K\big)
+\end{aligned}
 \label{eq:qvirtual}
 \end{equation}
 
@@ -198,7 +200,7 @@ In this work, $\varepsilon = 10$, $\delta^{+} = 0.05$, $\delta^{-} = 0.01$, $\al
 
 \subsection{Unified Control Loop}
 
-All components above are combined in the unified control loop given in Algorithm~\ref{alg:cdt}. The loop is triggered every $\Delta$ seconds, consumes only $\qreal$ and $n_{\mathrm{win}}$ as inputs, and produces $\pacb$, the updated $\qvirt$, and the updated $\alpha$ as outputs.
+All components above are combined in the unified control loop given in Algorithm 1. The loop is triggered every $\Delta$ seconds, consumes only $\qreal$ and $n_{\mathrm{win}}$ as inputs, and produces $\pacb$, the updated $\qvirt$, and the updated $\alpha$ as outputs.
 
 \begin{figure}[t]
 \vspace{-2pt}
@@ -226,7 +228,6 @@ All components above are combined in the unified control loop given in Algorithm
 \vspace{3pt}
 \noindent\rule{\columnwidth}{0.15pt}\\[-5pt]
 \noindent\rule{\columnwidth}{0.5pt}
-\label{alg:cdt}
 \end{figure}
 
 % =============================================================================
@@ -271,6 +272,8 @@ Table~\ref{tab:metrics} summarizes the main performance metrics of the three met
 \caption{Multi Seed Performance Metrics ($N=10$,\ $T_{\mathrm{sim}}=1000$~s)}
 \label{tab:metrics}
 \begin{center}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lccc}
 \toprule
 \textbf{Method} & $P_{success}$ & $P_{drop}$ & $E_{mean}$ \\
@@ -294,7 +297,7 @@ The state mirroring error analysis confirms the primary finding of the calibrati
 
 \subsection{Connection Performance and Queue Stability}
 
-In terms of connection success, the observed ordering is Reactive Baseline ($P_{success} = 0.310$), Calibrated DT ($P_{success} = 0.309$), and DT without calibration ($P_{success} = 0.301$). The difference between the reactive baseline and the calibrated DT ($\Delta = 0.001$) is not statistically meaningful because the confidence intervals overlap substantially. However, this numerical similarity should not be read as mechanistic equivalence.
+In terms of connection success, the observed ordering is Reactive Baseline ($P_{success} = 0.310$), Calibrated DT ($P_{success} = 0.309$), and DT without calibration ($P_{success} = 0.301$). The difference between the reactive baseline and the calibrated DT (0.001) is not statistically meaningful because the confidence intervals overlap substantially. However, this numerical similarity should not be read as mechanistic equivalence.
 
 The reactive baseline reaches a similar $P_{success}$ only after the queue approaches saturation, that is, after the threshold $\qreal > 0.8K$ is exceeded and the dropping policy activates. The calibrated DT instead increases $\pacb$ gradually before $\qreal$ reaches $K$, thereby keeping the queue length in a more stable region. Figure~\ref{fig:q_real_ci} presents the queue stability comparison.
 
@@ -314,29 +317,29 @@ The advantage of the calibrated DT becomes clearer in the per request queueing d
 \label{fig:delay_cdf}
 \end{figure}
 
-The CDF of the calibrated DT is shifted left relative to both the reactive baseline and the uncalibrated DT. The reactive baseline allows requests entering the waiting queue near saturation to experience prolonged delays, which appears as large jumps in the P90 and P99 queueing delay values. Since the calibrated DT keeps $\qreal$ in a stable operating region, it suppresses the tail of the delay distribution. The calibrated DT thus reduces dropped connections while lowering queueing delay for served requests.
+The CDF of the calibrated DT is shifted left relative to both the reactive baseline and the uncalibrated DT. The reactive baseline allows requests entering the waiting queue near saturation to experience prolonged delays, which appears as large jumps in the P90 and P99 queueing delay values. Since the calibrated DT keeps $\qreal$ in a stable operating region, it suppresses the tail of the delay distribution. Compared to the uncalibrated DT, the calibrated DT reduces dropped connections; compared to the reactive baseline, it achieves statistically equivalent connection success while lowering queueing delay for served requests.
 
 \subsection{Epsilon Sensitivity Analysis}
 
-A sensitivity analysis over $\varepsilon \in \{5, 10, 20, 40, 80\}$ shows that $\varepsilon = 10$ is near optimal with respect to $P_{success}$ and the normalized objective score. This supports the claim that the selected parameter is empirically justified rather than purely intuitive.
+An exploratory sensitivity analysis over $\varepsilon \in \{5, 10, 20, 40, 80\}$ was conducted with a single random seed (seed 42). In this run, $\varepsilon = 40$ achieved the highest composite objective score, while $\varepsilon = 80$ produced the lowest mean state mirroring error. The selected value $\varepsilon = 10$ should therefore be interpreted as a conservative operating default motivated by the normal traffic noise floor rather than as a statistically validated optimum. A full multi seed sensitivity sweep is left for future work.
 
 \subsection{Computational Complexity Analysis}
 
-The computational overhead of integrating the proposed calibrated DT controller into real gNB hardware is a critical design constraint. Inspection of Algorithm~\ref{alg:cdt} shows that each $\Delta$ step involves a fixed number of basic arithmetic operations: one division, one multiply add pair, one clip operation, and a few comparisons. The stored state is limited to $\{\ema_t, \qvirt, \alpha, n_{\mathrm{win}}\}$.
+The computational overhead of integrating the proposed calibrated DT controller into real gNB hardware is a critical design constraint. Inspection of Algorithm 1 shows that each $\Delta$ step involves a fixed number of basic arithmetic operations: one division, one multiply add pair, one clip operation, and a few comparisons. The stored state is limited to $\{\ema_t, \qvirt, \alpha, n_{\mathrm{win}}\}$.
 
 This implies that the proposed controller requires $O(1)$ time complexity and $O(1)$ space complexity per control step. A controller with fixed memory is well-suited to the constrained resources of gNB hardware.
 
 This is a practical advantage over learning based proactive controllers. In Machine Learning (ML) and Deep Neural Network (DNN) based approaches, inference cost scales with the size of the network weight matrix and reaches $O(W)$, where $W$ denotes the number of trained weights and therefore model capacity. Traffic predictors based on LSTM and Transformer models commonly reach $W \sim 10^5$--$10^7$, and inference latency at that scale can be on the order of milliseconds and may be non deterministic~\cite{b9}. In contrast, the real time response requirements of gNB RACH controllers are in the microsecond range. Deploying DNN based controllers directly on embedded hardware is therefore impractical from both latency and determinism perspectives.
 
-The proposed $O(1)$ calibrated DT architecture addresses this tradeoff by providing accurate online adaptation with minimal hardware overhead. Each $\Delta = 1\ \mathrm{s}$ step completes within nanoseconds on modern gNB processors, which supports deployment within commercial gNB software stacks.
+The proposed $O(1)$ calibrated DT architecture addresses this tradeoff by providing online adaptation with minimal algorithmic overhead. Because each $\Delta = 1\ \mathrm{s}$ step consists only of fixed cost arithmetic and comparisons, the controller is suitable for implementation within commercial gNB software stacks, subject to target hardware benchmarking.
 
 \subsection{O-RAN Integration and Real Time Deployment}
 
-The calibrated DT controller maps directly onto the Open Radio Access Network (O-RAN) architecture. In the layered reference architecture defined by the O-RAN Alliance, the \emph{Near Real Time RAN Intelligent Controller} (Near-RT RIC) manages control loops between 10 ms and 1 s~\cite{b14}. The control interval $\Delta = 1\ \mathrm{s}$ used here matches the upper end of that range, while the proven $O(1)$ computational complexity indicates that the controller can also run comfortably within tighter timing budgets.
+The calibrated DT controller maps directly onto the Open Radio Access Network (O-RAN) architecture. In the layered reference architecture defined by the O-RAN Alliance, the \emph{Near Real Time RAN Intelligent Controller} (Near-RT RIC) manages control loops between 10 ms and 1 s~\cite{b14}. The control interval $\Delta = 1\ \mathrm{s}$ used here matches the upper end of that range, while the $O(1)$ computational complexity indicates that the controller is a plausible candidate for tighter timing budgets after implementation-level latency validation.
 
-In deployment, the calibrated DT controller is implemented as an \emph{xApp} running on the Near-RT RIC. The xApp receives input through the \textbf{E2} interface, where the gNB reports cell level RACH metrics such as $\qreal$, preamble collision count, and the per window arrival count $n_{\mathrm{win}}$ within the E2SM-KPM framework. The xApp executes Algorithm~\ref{alg:cdt} and outputs the computed $\pacb$.
+In deployment, the calibrated DT controller is implemented as an \emph{xApp} running on the Near-RT RIC. The xApp receives input through the \textbf{E2} interface, where the gNB reports cell level RACH metrics such as $\qreal$, preamble collision count, and the per window arrival count $n_{\mathrm{win}}$ within the E2SM-KPM framework. The xApp executes Algorithm 1 and outputs the computed $\pacb$.
 
-The generated $\pacb$ is then delivered to the gNB CU-CP through the \textbf{E2SM-RC} interface. The CU-CP injects this value into the \texttt{uac-BarringInfo} field of the SIB1 broadcast, fully consistent with the 5G NR Unified Access Control framework discussed earlier. The entire control loop thus closes over standard O-RAN and 3GPP signaling infrastructure without requiring protocol modifications or special hardware.
+The generated $\pacb$ is then delivered to the gNB CU-CP through the \textbf{E2SM-RC} interface. The CU-CP injects this value into the uac-BarringInfo field of the SIB1 broadcast, fully consistent with the 5G NR Unified Access Control framework discussed earlier. The entire control loop thus closes over standard O-RAN and 3GPP signaling infrastructure without requiring protocol modifications or special hardware.
 
 This deployment model has two practical advantages. First, operator policy intent, such as attack sensitivity level or the threshold $\varepsilon$, can be updated dynamically at xApp runtime through the Non-RT RIC. Second, the xApp abstraction provides a vendor independent deployment path, allowing the same controller to run across hardware from different vendors.
 
@@ -349,7 +352,7 @@ The results show the effectiveness of the proposed calibrated DT architecture in
 
 \textbf{Single Cell Scope.} The adopted $MMPP/M/c/K$ model treats a single gNB cell independently. In real 5G deployments, there are continuous handover signaling flows between neighboring cells, mobility dependent correlations across UEs, and multi cell interference effects. These factors complicate the observation process of $\qreal$ in ways that cannot be fully represented by independent Markov chains. As a result, the 42\% reduction in state mirroring error observed in a single cell environment may differ in a multi cell deployment. Addressing this limitation would require either one DT instance per cell or a distributed architecture in which inter cell state sharing is coordinated centrally.
 
-\textbf{Fixed Calibration Steps.} The proposed asymmetric calibration rule relies on fixed step sizes $\delta^{+} = 0.05$ and $\delta^{-} = 0.01$. These values were chosen through intuitive justification and practical bounds supported by the $\varepsilon = 10$ sensitivity analysis. However, keeping $\delta^{+}$ and $\delta^{-}$ fixed creates a potential vulnerability: slow ramp attacks that deliberately keep botnet traffic just below the threshold $\varepsilon$ could push $\qreal$ gradually toward $K$ without ever triggering the calibration loop. This reveals a limitation against more sophisticated attacks. A natural next step is to determine $\delta^{+}$ and $\delta^{-}$ dynamically using a Reinforcement Learning (RL) agent that treats instantaneous state mirroring error as a reward signal.
+\textbf{Fixed Calibration Steps.} The proposed asymmetric calibration rule relies on fixed step sizes $\delta^{+} = 0.05$ and $\delta^{-} = 0.01$. These values were chosen through intuitive justification and practical bounds, while the $\varepsilon$ sensitivity analysis remains exploratory because it was performed with a single seed. Keeping $\delta^{+}$ and $\delta^{-}$ fixed creates a potential vulnerability: slow ramp attacks that deliberately keep botnet traffic just below the threshold $\varepsilon$ could push $\qreal$ gradually toward $K$ without ever triggering the calibration loop. This reveals a limitation against more sophisticated attacks. A natural next step is to determine $\delta^{+}$ and $\delta^{-}$ dynamically using a Reinforcement Learning (RL) agent that treats instantaneous state mirroring error as a reward signal.
 
 % =============================================================================
 % SECTION 7: CONCLUSION

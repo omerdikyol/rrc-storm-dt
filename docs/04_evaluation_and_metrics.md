@@ -12,11 +12,11 @@ Log the following metrics at every control interval ($\Delta$):
 * $Q_{real}$ and $Q_{virtual}$.
 * State Mirroring Error ($E$).
 * Applied $p_{acb}$.
-* Cumulative legitimate UE successes.
-* Cumulative legitimate UE drops.
+* Cumulative served requests.
+* Cumulative dropped requests.
 
 ## 3. Required Output Plots (For IEEE Paper)
 * **Queue Stability:** Time-series plot showing $Q_{real}$ vs. Time for both scenarios against the capacity limit $K$.
 * **Model Fidelity:** Time-series plot of $Q_{real}$ vs. $Q_{virtual}$ showing the effectiveness of the calibration loop.
-* **Success Probability:** Bar chart comparing total access success probability of legitimate UEs between the Baseline and Proposed scenarios.
+* **Success Probability:** Bar chart comparing aggregate request success probability between the Baseline and Proposed scenarios.
 * **Delay:** CDF (Cumulative Distribution Function) of connection setup delays.

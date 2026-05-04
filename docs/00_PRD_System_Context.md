@@ -9,7 +9,7 @@ Predictive Digital Twin with Continuous Calibration for 5G RRC Signaling Storm M
 
 ## 2. System Architecture
 * **Traffic Model:** $MMPP/M/c/K$ (Markov-Modulated Poisson Process) queue to capture burst dynamics.
-* **Digital Twin:** Autonomously calibrates prediction weights based on mirroring error before calculating and applying optimal stochastic Access Class Barring probability ($p_{acb}$).
+* **Digital Twin:** Predicts aggregate arrival load, calculates the stochastic Access Class Barring probability ($p_{acb}$) from $Q_{real}$, updates its virtual queue, then calibrates the EMA weight based on mirroring error.
 
 ## 3. Implementation Constraints & Allowances
 * **Language:** Python 3.10+

@@ -16,7 +16,7 @@ You have full autonomous control to read files, write code, execute scripts, and
 * **Test:** Execute the simulation and log connection success rates and drops. This establishes the baseline performance.
 
 ## Phase 3: Digital Twin Integration
-* **Action:** Research academic literature on applying Exponential Moving Averages (EMA) to network traffic forecasting, specifically looking for optimal $\alpha$ weights.
+* **Action:** Research academic literature on applying Exponential Moving Averages (EMA) to network traffic forecasting, and document whether any cited source actually supports the selected $\alpha$ value. If not, treat $\alpha_0$ as an empirical simulation parameter.
 * **Implement:** Build the `DigitalTwinController` running in parallel. Implement EMA forecasting and the $p_{acb}$ formula from Document 05.
 * **Test:** Execute the simulation. Log the state mirroring error ($E$) over time.
 

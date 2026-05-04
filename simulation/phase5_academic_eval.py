@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 sys.path.insert(0, os.path.dirname(__file__))
 from config import (
-    K, EPSILON, SIM_TIME,
+    K, EPSILON, SIM_TIME, REACTIVE_THRESHOLD,
     OMEGA_1, OMEGA_2,
 )
 from gnb_core import TrafficGenerator, GNBQueue, ReactiveController, DigitalTwinController
