@@ -180,11 +180,11 @@ ACB uzantıları önerilmiştir~\cite{b5}.
 Ne var ki tüm reaktif ACB ve UAC varyantları, temel bir nedensellik kısıtından
 muaf değildir: engelleme kararı, kuyruk uzunluğunun gözlemlenmesine, bu
 gözlemin işlenmesine ve denetim sinyalinin SIB1 üzerinden iletilmesine
-bağlıdır. Bu süreç kaçınılmaz bir Control Loop Latency üretmektedir. Kotuliak ve ark.~\cite{b6}, ticari 5G NR Non-Standalone ağları üzerinde
-gerçekleştirdikleri ölçüm çalışmasında yüksek yük koşullarında RACH
-prosedürünün gecikme bütçesini önemli ölçüde aştığını; bu durumun reaktif
-kontrol döngüsünün yetersizliğini pratik ortamda da doğruladığını
-raporlamıştır.
+bağlıdır. Bu süreç kaçınılmaz bir Control Loop Latency üretmektedir. Seo ve
+ark.~\cite{b6}, rastgele erişim prosedürünün kararsız veya doygun çalışma
+bölgelerine yaklaştığında gecikme gereksinimlerinin ihlal edilebildiğini
+göstermiştir. Bu bulgu, tamamen reaktif kontrol döngülerinin pratik
+yetersizliğini doğrulamaktadır.
 
 \subsection{Proaktif ve Öngörülü Yaklaşımlar}
 
@@ -197,9 +197,9 @@ tahsisi~\cite{b8} ve zaman serisi regresyonu kullanan yük öngörücüler~\cite
 
 Digital Twin (DT) paradigması, fiziksel sistemin sanal temsilini gerçek zamanlı
 sensör geri bildirimiyle sürekli güncelleyen daha kapsamlı bir çerçeve
-sunmaktadır~\cite{b10}. 5G ağ yönetimi bağlamında DT uygulamaları enerji
-verimliliği optimizasyonu~\cite{b11}, dilim (\emph{slice}) yönetimi~\cite{b12}
-ve anomali tespiti~\cite{b13} alanlarında başarıyla kullanılmıştır. Bununla
+sunmaktadır~\cite{b10}. Daha geniş 5G ve siber-fiziksel sistemler literatürü,
+ağ dijital ikizlerini~\cite{b11}, ağ dilimleme güvenliğini~\cite{b12} ve
+DT tabanlı anomali tespitini~\cite{b13} incelemiştir. Bununla
 birlikte, mevcut DT tabanlı ağ kontrolcülerinin büyük çoğunluğu çalışma
 zamanında model güncellemesi gerçekleştirmemektedir. Bu durum, botnet güdümlü
 RRC Signaling Storm senaryolarında kaçınılmaz biçimde Model Drift'e yol açmakta
@@ -718,17 +718,16 @@ aracılığıyla çok parametreli ve öğrenen biçimde belirlenmesi araştırı
 \begin{thebibliography}{00}
 
 \bibitem{b1}
-D. Rupprecht, K. Kohls, T. Holz ve C. Pöpper,
-``Breaking LTE on Layer Two,''
-\emph{Proc. IEEE Symp. Security and Privacy (S\&P)},
-San Francisco, CA, ABD, May 2019, ss. 1121--1136.
+A. Tabiban, H. A. Alameddine, M. A. Salahuddin ve R. Boutaba,
+``Signaling Storm in O-RAN: Challenges and Research Opportunities,''
+\emph{IEEE Commun. Mag.},
+c. 62, s. 6, ss. 58--64, Haz. 2024.
 
 \bibitem{b2}
-A. Laya, L. Alonso ve J. Alonso-Zarate,
-``Is the Random Access Channel of LTE and LTE-A Suitable for M2M
-Communications? A Survey of Alternatives,''
-\emph{IEEE Commun. Surveys Tuts.},
-c. 16, s. 1, ss. 4--16, 1. Çeyrek 2014.
+B. H. Lee, H. S. Lee, S. Moon ve J. W. Lee,
+``Enhanced Random Access for Massive-Machine-Type Communications,''
+\emph{IEEE Internet of Things J.},
+c. 8, s. 8, ss. 7046--7064, Nis. 2021.
 
 \bibitem{b3}
 M. Grieves ve J. Vickers,
@@ -741,35 +740,34 @@ Cham: Springer, 2017, ss. 85--113.
 \bibitem{b4}
 3rd Generation Partnership Project (3GPP),
 ``NR; Radio Resource Control (RRC) Protocol Specification,''
-TS 38.331, Sürüm 17.3.0, Eylül 2022.
+TS 38.331, versiyon 17.3.0, Release 17, Oca. 2023.
 
 \bibitem{b5}
-T. Taleb, A. Ksentini ve A. Kobbane,
-``Decongesting LTE/LTE-Advanced Cellular Networks via OFFL Offloading:
-A Game Theoretic Approach,''
-\emph{IEEE Trans. Ind. Electron.},
-c. 62, s. 7, ss. 4423--4433, Tem. 2015.
+L. Miuccio, D. Panno ve S. Riolo,
+``Joint Control of Random Access and Dynamic Uplink Resource Dimensioning
+for Massive MTC in 5G NR Based on SCMA,''
+\emph{IEEE Internet of Things J.},
+c. 7, s. 6, ss. 5042--5063, Haz. 2020.
 
 \bibitem{b6}
-M. Kotuliak, T. K. Todorov, A. S. A. Gamel ve P. Počta,
-``Performance Evaluation of 5G New Radio Non-Standalone Network in Commercial Deployment,''
+J.-B. Seo, W. T. Toor ve H. Jin,
+``Analysis of Two-Step Random Access Procedure for Cellular Ultra-Reliable Low Latency Communications,''
 \emph{IEEE Access},
-c. 9, ss. 110689--110698, Ağu. 2021.
+c. 9, ss. 5972--5985, Oca. 2021.
 
 \bibitem{b7}
-Y. Chen ve W. Wang,
-``Machine-to-Machine Communication in LTE-A Networks: Architecture, Protocols
-and Applications,''
-\emph{IEEE Commun. Mag.},
-c. 50, s. 3, ss. 194--201, Mar. 2012.
+S. K. Sharma ve X. Wang,
+``Toward Massive Machine Type Communications in Ultra-Dense Cellular IoT
+Networks: Current Issues and Machine Learning-Assisted Solutions,''
+\emph{IEEE Commun. Surveys Tuts.},
+c. 22, s. 1, ss. 426--471, 1. Çeyrek 2020.
 
 \bibitem{b8}
-N. C. Luong, D. T. Hoang, S. Gong, D. Niyato, P. Wang, Y.-C. Liang ve
-D. I. Kim,
-``Applications of Deep Reinforcement Learning in Communications and
-Networking: A Survey,''
-\emph{IEEE Commun. Surveys Tuts.},
-c. 21, s. 4, ss. 3133--3174, 4. Çeyrek 2019.
+R. Dong, C. She, W. Hardjawana, Y. Li ve B. Vucetic,
+``Deep Learning for Radio Resource Allocation With Diverse Quality-of-Service
+Requirements in 5G,''
+\emph{IEEE Trans. Wireless Commun.},
+c. 20, s. 4, ss. 2309--2324, Nis. 2021.
 
 \bibitem{b9}
 C. Zhang, P. Patras ve H. Haddadi,
@@ -778,30 +776,31 @@ C. Zhang, P. Patras ve H. Haddadi,
 c. 21, s. 3, ss. 2224--2287, 3. Çeyrek 2019.
 
 \bibitem{b10}
-Y. Lu,
-``The Cyber-Physical-Social-Thinking Space Based Science and Technology
-Framework for the Internet of Things,''
-\emph{Future Gener. Comput. Syst.},
-c. 79, ss. 4--11, Şub. 2018.
+H. X. Nguyen, R. Trestian, D. To ve M. Tatipamula,
+``Digital Twin for 5G and Beyond,''
+\emph{IEEE Commun. Mag.},
+c. 59, s. 2, ss. 10--15, Şub. 2021.
 
 \bibitem{b11}
-M. Almasan, M. Gürsoy, S. Troia, G. Maier ve A. Pattavina,
-``Digital Twin Network: Opportunities and Challenges,''
-\emph{Proc. IFIP/IEEE Int. Symp. Integrated Network Management (IM)},
-Bordeaux, Fransa, May 2021, ss. 727--731.
+P. Almasan, M. Ferriol-Galmes, J. Paillisse, J. Suarez-Varela,
+D. Perino, D. Lopez, A. A. Pastor Perales, P. Harvey, L. Ciavaglia,
+L. Wong, V. Ram, S. Xiao, X. Shi, X. Cheng, A. Cabellos-Aparicio
+ve P. Barlet-Ros,
+``Network Digital Twin: Context, Enabling Technologies, and Opportunities,''
+\emph{IEEE Commun. Mag.},
+c. 60, s. 11, ss. 22--27, Kas. 2022.
 
 \bibitem{b12}
-A. Masood, D. Lakew ve S. Cho,
-``Security Challenges and Solutions for 5G Network Slicing,''
-\emph{IEEE Commun. Standards Mag.},
-c. 4, s. 1, ss. 63--69, Mar. 2020.
+R. F. Olimid ve G. Nencioni,
+``5G Network Slicing: A Security Overview,''
+\emph{IEEE Access},
+c. 8, ss. 99999--100009, Haz. 2020.
 
 \bibitem{b13}
-R. Fontana ve G. Carra,
+Q. Xu, S. Ali ve T. Yue,
 ``Digital Twin-Based Anomaly Detection in Cyber-Physical Systems,''
-\emph{Proc. IEEE Int. Conf. Cyber-Physical Systems, Networks, and
-Applications (CPSNA)},
-Napoli, İtalya, Eyl. 2021, ss. 1--6.
+\emph{Proc. IEEE Conf. Software Testing, Verification and Validation (ICST)},
+Porto de Galinhas, Brezilya, Nis. 2021, ss. 205--216.
 
 \bibitem{b14}
 M. Polese, L. Bonati, S. D'Oro, S. Basagni ve T. Melodia,

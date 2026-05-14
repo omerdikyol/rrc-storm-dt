@@ -91,13 +91,13 @@ With 5G NR Release 15, 3GPP adopted the more flexible \emph{Unified Access Contr
 
 This general mechanism has been studied extensively in both LTE and 5G NR, and adaptive ACB variants that adjust barring parameters based on queue occupancy have been proposed~\cite{b5}.
 
-However, all reactive ACB and UAC variants remain subject to a basic causality constraint: the barring decision depends on observing the queue length, processing that observation, and delivering the control signal through SIB1. This inevitably creates control loop latency. Kotuliak \emph{et al.}~\cite{b6} reported, based on measurements over commercial 5G NR Non Standalone networks, that the RACH procedure exceeded its delay budget under high load, confirming the practical inadequacy of reactive control loops.
+However, all reactive ACB and UAC variants remain subject to a basic causality constraint: the barring decision depends on observing the queue length, processing that observation, and delivering the control signal through SIB1. This inevitably creates control loop latency. Seo \emph{et al.}~\cite{b6} showed that random access delay requirements can be violated when the access procedure approaches unstable or saturated operating regions, confirming the practical inadequacy of purely reactive control loops.
 
 \subsection{Proactive and Predictive Approaches}
 
 In response to the limitations of reactive methods, proactive control approaches have been developed to predict future traffic conditions and apply throttling policies in advance. Approaches in this area include Markov decision processes~\cite{b7}, deep learning based resource allocation~\cite{b8}, and time series based load prediction~\cite{b9}.
 
-The Digital Twin paradigm offers a broader framework in which the virtual representation of the physical system is updated continuously through real time feedback~\cite{b10}. DT applications in 5G network management have been explored for energy efficiency optimization~\cite{b11}, slice management~\cite{b12}, and anomaly detection~\cite{b13}. However, most existing DT based network controllers do not update their predictive behavior during runtime. In botnet driven RRC signaling storm scenarios, this leads to model drift and growing state mirroring error. The proposed calibrated DT architecture addresses this specific gap.
+The Digital Twin paradigm offers a broader framework in which the virtual representation of the physical system is updated continuously through real time feedback~\cite{b10}. The broader 5G and cyber physical systems literature has explored network digital twins~\cite{b11}, network slicing security~\cite{b12}, and DT based anomaly detection~\cite{b13}. However, most existing DT based network controllers do not update their predictive behavior during runtime. In botnet driven RRC signaling storm scenarios, this leads to model drift and growing state mirroring error. The proposed calibrated DT architecture addresses this specific gap.
 
 % =============================================================================
 % SECTION 3: SYSTEM MODEL
@@ -371,10 +371,10 @@ Two directions remain open. First, the architecture should be extended to multi-
 \begin{thebibliography}{00}
 
 \bibitem{b1}
-D. Rupprecht, K. Kohls, T. Holz, and C. Pöpper,
-``Breaking LTE on Layer Two,''
-\emph{Proc. IEEE Symp. Security and Privacy (S\&P)},
-San Francisco, CA, USA, May 2019, pp.~1121--1136.
+A. Tabiban, H. A. Alameddine, M. A. Salahuddin, and R. Boutaba,
+``Signaling Storm in O-RAN: Challenges and Research Opportunities,''
+\emph{IEEE Commun. Mag.},
+vol.~62, no.~6, pp.~58--64, Jun. 2024.
 
 \bibitem{b2}
 B. H. Lee, H. S. Lee, S. Moon, and J. W. Lee,
@@ -393,7 +393,7 @@ Cham: Springer, 2017, pp.~85--113.
 \bibitem{b4}
 3rd Generation Partnership Project (3GPP),
 ``NR; Radio Resource Control (RRC) Protocol Specification,''
-TS~38.331, Rel.~17.3.0, Sep. 2022.
+TS~38.331, version~17.3.0, Release~17, Jan. 2023.
 
 \bibitem{b5}
 L. Miuccio, D. Panno, and S. Riolo,
@@ -403,10 +403,10 @@ for Massive MTC in 5G NR Based on SCMA,''
 vol.~7, no.~6, pp.~5042--5063, Jun. 2020.
 
 \bibitem{b6}
-M. Kotuliak, T. K. Todorov, A. S. A. Gamel, and P. Počta,
-``Performance Evaluation of 5G New Radio Non-Standalone Network in Commercial Deployment,''
+J.-B. Seo, W. T. Toor, and H. Jin,
+``Analysis of Two-Step Random Access Procedure for Cellular Ultra-Reliable Low Latency Communications,''
 \emph{IEEE Access},
-vol.~9, pp.~110689--110698, Aug. 2021.
+vol.~9, pp.~5972--5985, Jan. 2021.
 
 \bibitem{b7}
 S. K. Sharma and X. Wang,
@@ -435,23 +435,25 @@ H. X. Nguyen, R. Trestian, D. To, and M. Tatipamula,
 vol.~59, no.~2, pp.~10--15, Feb. 2021.
 
 \bibitem{b11}
-M. Almasan, M. Gürsoy, S. Troia, G. Maier, and A. Pattavina,
-``Digital Twin Network: Opportunities and Challenges,''
-\emph{Proc. IFIP/IEEE Int. Symp. Integrated Network Management (IM)},
-Bordeaux, France, May 2021, pp.~727--731.
+P. Almasan, M. Ferriol-Galmes, J. Paillisse, J. Suarez-Varela,
+D. Perino, D. Lopez, A. A. Pastor Perales, P. Harvey, L. Ciavaglia,
+L. Wong, V. Ram, S. Xiao, X. Shi, X. Cheng, A. Cabellos-Aparicio,
+and P. Barlet-Ros,
+``Network Digital Twin: Context, Enabling Technologies, and Opportunities,''
+\emph{IEEE Commun. Mag.},
+vol.~60, no.~11, pp.~22--27, Nov. 2022.
 
 \bibitem{b12}
-A. Masood, D. Lakew, and S. Cho,
-``Security Challenges and Solutions for 5G Network Slicing,''
-\emph{IEEE Commun. Standards Mag.},
-vol.~4, no.~1, pp.~63--69, Mar. 2020.
+R. F. Olimid and G. Nencioni,
+``5G Network Slicing: A Security Overview,''
+\emph{IEEE Access},
+vol.~8, pp.~99999--100009, Jun. 2020.
 
 \bibitem{b13}
-R. Fontana and G. Carra,
+Q. Xu, S. Ali, and T. Yue,
 ``Digital Twin-Based Anomaly Detection in Cyber-Physical Systems,''
-\emph{Proc. IEEE Int. Conf. Cyber-Physical Systems, Networks, and
-Applications (CPSNA)},
-Naples, Italy, Sep. 2021, pp.~1--6.
+\emph{Proc. IEEE Conf. Software Testing, Verification and Validation (ICST)},
+Porto de Galinhas, Brazil, Apr. 2021, pp.~205--216.
 
 \bibitem{b14}
 M. Polese, L. Bonati, S. D'Oro, S. Basagni, and T. Melodia,
