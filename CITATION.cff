@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software or the accompanying paper, please cite it as below."
+title: "Predictive Digital Twin for 5G RRC Storm Mitigation"
+abstract: >-
+  A Python/SimPy simulation of a calibrated predictive Digital Twin that
+  mitigates botnet-driven 5G RRC signaling storms. The repository implements a
+  five-phase MMPP/M/c/K queueing pipeline comparing no mitigation, reactive
+  Access Class Barring, an uncalibrated predictive Digital Twin, and a
+  continuously calibrated Digital Twin evaluated with multi-seed confidence
+  intervals.
+authors:
+  - family-names: Dikyol
+    given-names: Ömer
+    affiliation: "Istanbul Technical University, Department of Computer Engineering"
+    email: dikyol25@itu.edu.tr
+type: software
+license: MIT
+repository-code: "https://github.com/omerdikyol/rrc-storm-dt"
+keywords:
+  - 5G NR
+  - RRC signaling storm
+  - digital twin
+  - RACH
+  - access class barring
+  - queueing simulation
+  - SimPy
