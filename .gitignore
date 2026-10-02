@@ -36,3 +36,6 @@ missfont.log
 *.swp
 *.swo
 *~
+
+# Agent/tooling state
+.commandcode/

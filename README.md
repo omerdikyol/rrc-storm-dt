@@ -146,8 +146,8 @@ Adjust these values in `simulation/config.py` for custom experiments.
 
 This repository is organized to support both implementation and final course deliverables.
 
-- `paper/` contains IEEE-format manuscript sources and versions used for reporting the method and results.
-- `presentation/` contains slide source and compiled presentation files for the oral defense.
+- `paper/english.tex` is the canonical IEEE-format manuscript; compile it with `paper/IEEEtran.cls`.
+- `presentation/` contains the slide source (`presentation.tex`), compiled PDF, and PowerPoint version for the oral defense.
 
 Recommended workflow:
 
@@ -159,3 +159,7 @@ Recommended workflow:
 
 - The project is simulation-first and intended for reproducible academic evaluation.
 - `phase5_academic_eval.py` is the most complete experiment entry point when you need confidence intervals and sensitivity analysis.
+
+## License
+
+Released under the MIT License. See [LICENSE](LICENSE) for details.
