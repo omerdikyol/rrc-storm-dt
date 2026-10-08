@@ -36,6 +36,12 @@ The experiment evaluates whether a calibrated predictive Digital Twin can reduce
 
 The core research question is: can continuous calibration improve robustness when traffic dynamics shift and model drift appears?
 
+## Reading the results
+
+These experiments compare policies within the stated queue/traffic model. They are simulation results, not measurements from a deployed 5G network. [phase5_academic_eval.py](simulation/phase5_academic_eval.py) is the main repeated-seed evaluation entry point; [config.py](simulation/config.py) records the parameters that define a run.
+
+Phase 5 currently uses a normal-approximation interval across ten seeds. Interpret those intervals with the sample size and model assumptions in view.
+
 ## Methodology
 
 The simulation models gNB random access behavior as an MMPP-driven queueing system and applies control in increasing sophistication across phases.
@@ -56,7 +62,7 @@ The end-to-end protocol follows five executable phases:
 2. Phase 2 builds reactive baseline metrics.
 3. Phase 3 introduces predictive DT without calibration.
 4. Phase 4 compares reactive, uncalibrated DT, and calibrated DT.
-5. Phase 5 adds academic rigor with multi-seed confidence intervals, delay CDF analysis, and epsilon sensitivity.
+5. Phase 5 compares repeated-seed runs with confidence-interval plots, delay CDF analysis, and epsilon sensitivity.
 
 Primary evaluation dimensions:
 
@@ -99,7 +105,7 @@ python simulation/phase4_calibrated_dt.py
 python simulation/phase5_academic_eval.py
 ```
 
-Each script sets its own working directory to the project root internally, so these commands can be run from anywhere as long as the relative script path is valid.
+Run the commands from the repository root so the relative script paths resolve. The scripts place their outputs under the project’s output directories.
 
 ## Phase Outputs
 
