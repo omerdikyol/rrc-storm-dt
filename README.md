@@ -1,4 +1,11 @@
-# Predictive Digital Twin for 5G RRC Storm Mitigation
+<h1 align="center">Predictive Digital Twin for 5G RRC Storm Mitigation</h1>
+
+<p align="center">
+  <img alt="language: Python" src="https://img.shields.io/badge/language-Python-3776AB">
+  <img alt="simulation: SimPy" src="https://img.shields.io/badge/simulation-SimPy-blue">
+  <img alt="type: course project" src="https://img.shields.io/badge/type-course%20project-lightgrey">
+  <img alt="license: MIT" src="https://img.shields.io/badge/license-MIT-green">
+</p>
 
 Course project for BLG 632E (Next Generation Wireless Networks).
 
